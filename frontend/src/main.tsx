@@ -5,7 +5,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Error404Page from './components/Error404Page'
 import Dashboard from './routes/dashboard'
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
+import Signup from './routes/signup'
 
 const router = createBrowserRouter([
     {
@@ -18,7 +18,8 @@ const router = createBrowserRouter([
         errorElement: <Error404Page />,
     },
     {
-        path: '/register',
+        path: '/signup',
+        element: <Signup />,
         errorElement: <Error404Page />,
     },
     {
@@ -34,17 +35,8 @@ const router = createBrowserRouter([
     },
 ])
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-})
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ThemeProvider theme={darkTheme}>
-            <RouterProvider router={router} />
-            <CssBaseline />
-        </ThemeProvider>
+        <RouterProvider router={router} />
     </React.StrictMode>
 )

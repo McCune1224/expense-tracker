@@ -10,6 +10,7 @@ import (
 	jwtLogger "github.com/gofiber/fiber/v2/middleware/logger"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/mccune1224/expense-tracker/handler"
+	"github.com/mccune1224/expense-tracker/store"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
@@ -58,7 +59,11 @@ func main() {
 	}
 
 	// appHandler := handler.New(psqlDB, &model.User{}, &model.Transaction{}, &model.Category{})
-	appHandler := handler.New(psqlDB)
+	appHandler := handler.New(psqlDB,
+		&store.PostgreUserStore{},
+		&store.PostgreTransactionStore{},
+	)
+
 	appHandler.AttachRoutes(app)
 
 	app.Listen(envPort)

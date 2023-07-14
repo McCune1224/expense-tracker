@@ -2,7 +2,7 @@ package model
 
 import "gorm.io/gorm"
 
-// Gorm Database Representation of a User
+// Database representation of a User
 type User struct {
 	gorm.Model
 	Username     string

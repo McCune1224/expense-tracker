@@ -2,7 +2,14 @@ package store
 
 import "gorm.io/gorm"
 
-// GORM Postgres Implementation of TransactionStore
+// Really only using interface here incase I change my mind on DB later
+type TransactionStore interface {
+	GetTransaction()
+	GetTransactions()
+	CreateTransaction()
+	UpdateTransaction()
+	DeleteTransaction()
+}
 
 type PostgreTransactionStore struct {
 	db *gorm.DB

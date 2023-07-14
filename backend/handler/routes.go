@@ -22,25 +22,25 @@ func (h *Handler) AttachRoutes(app *fiber.App) {
 			"message": "Hello World",
 		})
 	})
-	authRoutes(app)
+	h.authRoutes(app)
 	api := app.Group("/api")
-	userRoutes(api)
-	transactionRoutes(api)
-	categoryRoutes(api)
+	h.userRoutes(api)
+	h.transactionRoutes(api)
+	h.categoryRoutes(api)
 }
 
-func authRoutes(app fiber.Router) {
-	auth := app.Group("/auth", todo)
-	auth.Post("/login", todo)
+func (h *Handler) authRoutes(app fiber.Router) {
+	auth := app.Group("/auth")
+	auth.Post("/login", h.Login)
 
+	auth.Post("/register", todo)
 	auth.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte("JWT_SECRET")},
 	}))
 	auth.Post("/logout", todo)
-	auth.Post("/register", todo)
 }
 
-func userRoutes(router fiber.Router) {
+func (h *Handler) userRoutes(router fiber.Router) {
 }
-func transactionRoutes(router fiber.Router) {}
-func categoryRoutes(router fiber.Router)    {}
+func (h *Handler) transactionRoutes(router fiber.Router) {}
+func (h *Handler) categoryRoutes(router fiber.Router)    {}
