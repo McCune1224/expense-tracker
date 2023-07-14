@@ -33,8 +33,9 @@ func (h *Handler) authRoutes(app fiber.Router) {
 	auth := app.Group("/auth")
 	auth.Post("/login", h.Login)
 
-	auth.Post("/register", todo)
-	auth.Use(jwtware.New(jwtware.Config{
+	auth.Post("/register", h.Register)
+	protectedAuth := auth.Group("/logout")
+	protectedAuth.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte("JWT_SECRET")},
 	}))
 	auth.Post("/logout", todo)
