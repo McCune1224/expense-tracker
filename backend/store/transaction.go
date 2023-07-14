@@ -15,6 +15,12 @@ type PostgreTransactionStore struct {
 	db *gorm.DB
 }
 
+func NewPostgreTransactionStore(db *gorm.DB) *PostgreTransactionStore {
+	return &PostgreTransactionStore{
+		db: db,
+	}
+}
+
 func (pts *PostgreTransactionStore) GetTransaction() {
 }
 

@@ -58,10 +58,18 @@ func main() {
 		panic("failed to connect database, error: " + err.Error())
 	}
 
+	// migrations := []interface{}{
+	// 	&model.User{},
+	// 	&model.Transaction{},
+	// 	&model.Category{},
+	// }
 	// appHandler := handler.New(psqlDB, &model.User{}, &model.Transaction{}, &model.Category{})
+	psqlUserStore := store.NewPostgreUserStore(psqlDB)
+	psqlTransactionStore := store.NewPostgreTransactionStore(psqlDB)
 	appHandler := handler.New(psqlDB,
-		&store.PostgreUserStore{},
-		&store.PostgreTransactionStore{},
+		psqlUserStore,
+		psqlTransactionStore,
+		// migrations...,
 	)
 
 	appHandler.AttachRoutes(app)
