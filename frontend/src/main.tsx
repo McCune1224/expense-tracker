@@ -5,6 +5,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Error404Page from './components/Error404Page'
 import Dashboard from './routes/dashboard'
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 
 const router = createBrowserRouter([
     {
@@ -33,8 +34,17 @@ const router = createBrowserRouter([
     },
 ])
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+})
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <ThemeProvider theme={darkTheme}>
+            <RouterProvider router={router} />
+            <CssBaseline />
+        </ThemeProvider>
     </React.StrictMode>
 )
