@@ -1,17 +1,25 @@
 package handler
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"log"
 
-type Handler struct{}
+	"gorm.io/gorm"
+)
 
-func New() *Handler {
-    return &Handler{}
+type Handler struct {
+	db *gorm.DB
+	// UserStore *model.UserStore
 }
 
-func (h *Handler) AttachRoutes(app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"message": "Hello World",
-		})
-	})
+func New(gormDB *gorm.DB, migrations ...interface{}) *Handler {
+	if len(migrations) > 0 {
+		err := gormDB.AutoMigrate(migrations...)
+		if err != nil {
+			log.Println("Failed to migrate model, error: " + err.Error())
+		}
+	}
+	return &Handler{
+		db: gormDB,
+	}
 }
+
