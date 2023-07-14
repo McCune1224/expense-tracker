@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,18 +22,25 @@ func (h *Handler) AttachRoutes(app *fiber.App) {
 			"message": "Hello World",
 		})
 	})
-
+	authRoutes(app)
 	api := app.Group("/api")
-	authRoutes(api)
+	userRoutes(api)
+	transactionRoutes(api)
+	categoryRoutes(api)
 }
 
 func authRoutes(app fiber.Router) {
 	auth := app.Group("/auth", todo)
-	auth.Get("/", todo)
 	auth.Post("/login", todo)
+
+	auth.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte("JWT_SECRET")},
+	}))
 	auth.Post("/logout", todo)
 	auth.Post("/register", todo)
 }
-func userRoutes(router fiber.Router)        {}
+
+func userRoutes(router fiber.Router) {
+}
 func transactionRoutes(router fiber.Router) {}
 func categoryRoutes(router fiber.Router)    {}
